@@ -1,14 +1,20 @@
-.PHONY: all
+# SocTalker Makefile
+# 编译服务器和客户端
+
+CXX = g++
+CXXFLAGS = -std=c++11 -g -Wall
+LDFLAGS = -lpthread -lreadline
+
+.PHONY: all clean
+
 all: server client
-	@echo build $@
+	@echo "Build complete: server, client"
 
-.PHONY: clean
+server: server.cc
+	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
+
+client: client.cc
+	$(CXX) $(CXXFLAGS) -o $@ $< -lreadline
+
 clean:
-	rm -f server
-	rm -f client 
-
-server: server.cc $(OBJS)
-	gcc -std=c++11 -lstdc++ -lpthread -lreadline -lhistory -g -o $@ $< $(OBJS)
-
-client: client.cc $(OBJS)
-	gcc -std=c++11 -lstdc++ -g -o $@ $< $(OBJS)
+	rm -f server client
